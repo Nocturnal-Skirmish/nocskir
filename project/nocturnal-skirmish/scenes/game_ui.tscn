@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3 uid="uid://23novt00b5vr"]
+
+[ext_resource type="Texture2D" uid="uid://celmh10ea5e4d" path="res://assets/sprites/simple-button-spritesheet.png" id="1_yubou"]
+[ext_resource type="Theme" uid="uid://cgkwmelnr2j37" path="res://themes/defaultbutton_theme.tres" id="2_rns2u"]
+
+[node name="gameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="mainMenu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -156.0
+offset_top = -80.0
+offset_right = 156.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="baseMenuScreen" type="MarginContainer" parent="mainMenu"]
+layout_mode = 2
+
+[node name="NinePatchTexture" type="NinePatchRect" parent="mainMenu/baseMenuScreen"]
+layout_mode = 2
+texture = ExtResource("1_yubou")
+region_rect = Rect2(0, 0, 96, 96)
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+
+[node name="menuContainer" type="MarginContainer" parent="mainMenu/baseMenuScreen"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 46
+
+[node name="VBoxContainer" type="VBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="listButtonContainer" type="HBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer"]
+custom_minimum_size = Vector2(160, 80)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
+
+[node name="bottomButtonContainer" type="HBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
+
+[node name="playButton2" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
+
+[node name="playButton3" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
