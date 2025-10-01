@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://23novt00b5vr"]
+[gd_scene load_steps=5 format=3 uid="uid://23novt00b5vr"]
 
 [ext_resource type="Texture2D" uid="uid://celmh10ea5e4d" path="res://assets/sprites/simple-button-spritesheet.png" id="1_yubou"]
 [ext_resource type="Theme" uid="uid://cgkwmelnr2j37" path="res://themes/defaultbutton_theme.tres" id="2_rns2u"]
+[ext_resource type="Script" uid="uid://djg0pr5n81c6o" path="res://scripts/play_button.gd" id="3_u001w"]
+[ext_resource type="Theme" uid="uid://bibk1lggkhdsi" path="res://themes/buttonlabel_theme.tres" id="4_u2dgd"]
 
 [node name="gameUI" type="Control"]
 layout_mode = 3
@@ -61,26 +63,151 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer"]
-custom_minimum_size = Vector2(160, 80)
+custom_minimum_size = Vector2(192, 96)
 layout_mode = 2
 theme = ExtResource("2_rns2u")
+script = ExtResource("3_u001w")
+
+[node name="buttonLabel" type="Label" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2375
+anchor_top = 0.20625
+anchor_right = 0.7625
+anchor_bottom = 0.59375
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u2dgd")
+text = "Play"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="listButtonContainer3" type="HBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3"]
+custom_minimum_size = Vector2(192, 96)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
+script = ExtResource("3_u001w")
+
+[node name="buttonLabel" type="Label" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2375
+anchor_top = 0.20625
+anchor_right = 0.7625
+anchor_bottom = 0.59375
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u2dgd")
+text = "Options"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="listButtonContainer2" type="HBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2"]
+custom_minimum_size = Vector2(192, 96)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
+script = ExtResource("3_u001w")
+
+[node name="buttonLabel" type="Label" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2375
+anchor_top = 0.20625
+anchor_right = 0.7625
+anchor_bottom = 0.59375
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u2dgd")
+text = "Credits"
+metadata/_edit_use_anchors_ = true
+
+[node name="listButtonContainer4" type="HBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4"]
+custom_minimum_size = Vector2(192, 96)
+layout_mode = 2
+theme = ExtResource("2_rns2u")
+script = ExtResource("3_u001w")
+
+[node name="buttonLabel" type="Label" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2375
+anchor_top = 0.20625
+anchor_right = 0.7625
+anchor_bottom = 0.59375
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u2dgd")
+text = "Exit"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="bottomButtonContainer" type="HBoxContainer" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="playButton" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 theme = ExtResource("2_rns2u")
 
 [node name="playButton2" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 theme = ExtResource("2_rns2u")
 
 [node name="playButton3" type="Button" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 theme = ExtResource("2_rns2u")
+script = ExtResource("3_u001w")
+
+[node name="buttonLabel" type="Label" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/bottomButtonContainer/playButton3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.025
+anchor_top = 0.20625
+anchor_right = 1.025
+anchor_bottom = 0.59375
+offset_left = 21.0
+offset_right = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u2dgd")
+theme_override_font_sizes/font_size = 48
+text = "?"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="button_up" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_button_up"]
+[connection signal="mouse_entered" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_pressed"]
+[connection signal="button_up" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" method="_on_button_up"]
+[connection signal="mouse_entered" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer3/playButton" method="_on_pressed"]
+[connection signal="button_up" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" method="_on_button_up"]
+[connection signal="mouse_entered" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer2/playButton" method="_on_pressed"]
+[connection signal="button_up" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_button_up"]
+[connection signal="mouse_entered" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_pressed"]
