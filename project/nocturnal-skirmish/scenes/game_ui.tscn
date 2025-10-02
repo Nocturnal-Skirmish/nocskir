@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://23novt00b5vr"]
+[gd_scene load_steps=8 format=3 uid="uid://23novt00b5vr"]
 
 [ext_resource type="Texture2D" uid="uid://celmh10ea5e4d" path="res://assets/sprites/simple-button-spritesheet.png" id="1_yubou"]
+[ext_resource type="Shader" uid="uid://ddjxt5k3lump1" path="res://shaders/game_ui.gdshader" id="2_djwj0"]
 [ext_resource type="Theme" uid="uid://cgkwmelnr2j37" path="res://themes/defaultbutton_theme.tres" id="2_rns2u"]
 [ext_resource type="Script" uid="uid://djg0pr5n81c6o" path="res://scripts/play_button.gd" id="3_u001w"]
 [ext_resource type="Theme" uid="uid://bibk1lggkhdsi" path="res://themes/buttonlabel_theme.tres" id="4_u2dgd"]
+[ext_resource type="Script" uid="uid://dta66emkxkjnh" path="res://scripts/h_slider_value.gd" id="5_bt76a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_djwj0"]
+shader = ExtResource("2_djwj0")
+shader_parameter/scale = 1.0
+shader_parameter/color = Color(0.8755554, 0.85416704, 0.2736581, 1)
+shader_parameter/flashState = 0.0
 
 [node name="gameUI" type="Control"]
 layout_mode = 3
@@ -35,6 +43,7 @@ theme_override_constants/margin_bottom = 32
 layout_mode = 2
 
 [node name="NinePatchTexture" type="NinePatchRect" parent="mainMenu/baseMenuScreen"]
+material = SubResource("ShaderMaterial_djwj0")
 layout_mode = 2
 texture = ExtResource("1_yubou")
 region_rect = Rect2(0, 0, 96, 96)
@@ -152,7 +161,7 @@ anchor_bottom = 0.59375
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_u2dgd")
-text = "Exit"
+text = "Quit"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
@@ -195,6 +204,29 @@ text = "?"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="HSlider" type="HSlider" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer"]
+layout_mode = 2
+scrollable = false
+script = ExtResource("5_bt76a")
+
+[node name="SliderLabel" type="Label" parent="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/HSlider"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u2dgd")
+theme_override_font_sizes/font_size = 16
+text = "0%"
+horizontal_alignment = 1
+
 [connection signal="button_up" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_button_up"]
 [connection signal="mouse_entered" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer/playButton" method="_on_mouse_exited"]
@@ -211,3 +243,4 @@ metadata/_edit_use_anchors_ = true
 [connection signal="mouse_entered" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_mouse_exited"]
 [connection signal="pressed" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/listButtonContainer4/playButton" method="_on_pressed"]
+[connection signal="value_changed" from="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/HSlider" to="mainMenu/baseMenuScreen/menuContainer/VBoxContainer/HSlider" method="_on_value_changed"]
