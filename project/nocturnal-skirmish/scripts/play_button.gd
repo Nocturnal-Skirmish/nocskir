@@ -19,3 +19,6 @@ func _on_button_unhovered():
 	if button_label:
 		# Reset label position
 		button_label.position -= hover_offset
+
+func _on_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
