@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://c7snny445dfk6"]
+[gd_scene load_steps=25 format=4 uid="uid://c7snny445dfk6"]
 
 [ext_resource type="Texture2D" uid="uid://buvwf34f0uik4" path="res://assets/tilemaps/tilemap_concept.png" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://f8d8460hbtgt" path="res://scripts/main_game.gd" id="1_tefeu"]
@@ -50,9 +50,12 @@ radius = 6.0
 height = 26.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
-size = Vector2(19.2, 16.2)
+size = Vector2(1497.6, 842.4)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o6xl0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tipki"]
+radius = 100.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tefeu"]
 atlas = ExtResource("5_tbgi4")
@@ -116,7 +119,7 @@ height = 22.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tipki"]
 height = 28.0
 
-[node name="Node2D" type="Node2D"]
+[node name="Main" type="Node2D"]
 script = ExtResource("1_tefeu")
 
 [node name="TileMap" type="Node2D" parent="."]
@@ -146,13 +149,12 @@ texture = ExtResource("2_sugp2")
 shape = SubResource("CapsuleShape2D_0wfyh")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(3, 3)
 
 [node name="CameraMaxViewArea" type="Area2D" parent="Player/Camera2D"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Camera2D/CameraMaxViewArea"]
-position = Vector2(0, 1.5258789e-05)
-scale = Vector2(60, 40)
+position = Vector2(0, 7.6293945e-06)
 shape = SubResource("RectangleShape2D_tipki")
 debug_color = Color(0, 0.62866974, 0.49322212, 0.41960785)
 
@@ -161,6 +163,12 @@ debug_color = Color(0, 0.62866974, 0.49322212, 0.41960785)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/HurtBox"]
 shape = SubResource("CapsuleShape2D_o6xl0")
 debug_color = Color(1, 0, 0.13333334, 0.16078432)
+
+[node name="RangeArea" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RangeArea"]
+shape = SubResource("CircleShape2D_tipki")
+debug_color = Color(0.9764706, 0, 0.42745098, 0.1254902)
 
 [node name="EnemySlime" parent="." instance=ExtResource("5_o6xl0")]
 position = Vector2(50, 0)
@@ -235,8 +243,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 1
 text = "C = Cycle camera Zoom
 H = Halt enemies
-P = Purple Shader"
+P = Purple Shader
+Q = Spawn Slimes
+F = enemies_in_hurtbox"
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="area_entered" from="Player/HurtBox" to="Player" method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="Player/HurtBox" to="Player" method="_on_hurt_box_area_exited"]
+[connection signal="area_entered" from="Player/RangeArea" to="Player" method="_on_range_area_entered"]
+[connection signal="area_exited" from="Player/RangeArea" to="Player" method="_on_range_area_exited"]

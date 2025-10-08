@@ -15,10 +15,9 @@ func spawn_node_outside_viewport():
 	var camera_max_view_area = get_node("Player/Camera2D/CameraMaxViewArea")
 	var camera_max_view_area_shape = camera_max_view_area.get_node("CollisionShape2D").shape
 	var spawn_range = 100.0 # Amount of pixels outside camera_max_view_area that enemy can spawn in
-	var camera_max_view_area_margin = 1000 # Amount of pixels that the view are gets pushed out to
 	
 	var extents = camera_max_view_area_shape.extents
-	var total_extents = (extents + Vector2(camera_max_view_area_margin, camera_max_view_area_margin)) + Vector2(spawn_range, spawn_range)
+	var total_extents = extents + Vector2(spawn_range, spawn_range)
 	var spawn_pos = Vector2.ZERO
 	
 	# Decide randomly which side outside the viewport to spawn (top, bottom, left, right)
@@ -92,3 +91,6 @@ func _process(delta: float) -> void:
 	if Input.is_key_pressed(KEY_P) and camera_timer <= 0.0:
 		toggle_shader()
 		camera_timer = camera_interval
+	
+	if Input.is_key_pressed(KEY_Q):
+		spawn_node_outside_viewport()
