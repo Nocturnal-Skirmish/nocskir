@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var enemy_spawn_timer = 0.0
-@export var enemy_spawn_interval = 3.0
+@export var enemy_spawn_interval = 0.01
 @onready var EnemySlimeScene = preload("res://scenes/enemy_slime.tscn")
 @onready var spawn_count = 0
 

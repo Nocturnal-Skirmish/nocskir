@@ -118,6 +118,7 @@ texture = ExtResource("2_sugp2")
 shape = SubResource("CapsuleShape2D_0wfyh")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(3, 3)
 
 [node name="EnemySpawnArea" type="Area2D" parent="Player/Camera2D"]
 
