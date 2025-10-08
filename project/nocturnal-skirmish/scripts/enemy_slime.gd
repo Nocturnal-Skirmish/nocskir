@@ -20,5 +20,5 @@ func chase():
 
 func _process(delta):
 	
-	if not Input.is_key_pressed(KEY_C):
+	if not Input.is_key_pressed(KEY_H):
 		chase()

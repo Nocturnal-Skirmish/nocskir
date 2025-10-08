@@ -50,8 +50,8 @@ func _on_hurt_box_area_exited(area: Area2D) -> void:
 func player_take_damage():
 	for enemy in enemies_in_hurtbox:
 		if "damage_points" in enemy:
-			print("Damage taken! Damage: " + str(enemy["damage_points"]) + " | Health points: " + str(health_points))
 			health_points -= enemy["damage_points"]
+			print("Damage taken! Damage: " + str(enemy["damage_points"]) + " | Health points: " + str(health_points))
 
 			if health_points <= 0:
 				get_tree().change_scene_to_file("res://scenes/game_ui.tscn")
