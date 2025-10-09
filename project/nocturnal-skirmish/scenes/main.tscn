@@ -195,7 +195,7 @@ P = Purple Shader
 Q = Spawn Slimes
 F = enemies_in_hurtbox"
 
-[node name="MarginContainer" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
+[node name="BottomLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
 custom_minimum_size = Vector2(100, 21)
 layout_mode = 1
 anchors_preset = -1
@@ -210,16 +210,31 @@ pivot_offset = Vector2(0, 21)
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Player/Camera2D/HUDCanvas/ControlsUI/MarginContainer"]
-custom_minimum_size = Vector2(100, 21)
+[node name="MarginContainer" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="ProgressUnderBar" type="TextureRect" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("8_a8y0u")
+stretch_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+custom_minimum_size = Vector2(76, 21)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 value = 100.0
 nine_patch_stretch = true
-texture_under = ExtResource("8_a8y0u")
-texture_over = ExtResource("9_jkv2x")
 texture_progress = ExtResource("10_jbj1t")
+texture_progress_offset = Vector2(5, 0)
+
+[node name="ProgressOverBar" type="TextureRect" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+custom_minimum_size = Vector2(100, 21)
+layout_mode = 2
+texture = ExtResource("9_jkv2x")
+stretch_mode = 2
 
 [node name="HurtBox" type="Area2D" parent="Player"]
 
