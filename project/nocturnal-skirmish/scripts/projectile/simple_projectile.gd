@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var projectile_functions_script = preload("res://scripts/projectile/projectile_functions.gd").new()
 @export var projectile_speed = 300
 @export var projectile_damage = 2
 @export var pierce_amount = 1
@@ -10,21 +11,22 @@ extends Node2D
 @onready var target_pos = target_body.global_position
 @onready var targets_hit = 0
 
+# Move toward target every frame
 func _process(delta: float) -> void:
-	var direction = Vector2(cos(rotation), sin(rotation))
-	position += direction * projectile_speed * delta
+	projectile_functions_script.move_to_direction(self, projectile_speed, delta)
 
+# Point towards target when projectile is spawned
 func _on_ready() -> void:
-	rotation = (target_pos - global_position).angle()
+	projectile_functions_script.point_to_target(target_body, self)
 
+# Handle collision with enemy
 func _on_hit_box_area_entered(area: Area2D) -> void:
-	var enemy_body = area.get_parent()
-	if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
-		enemy_body.queue_free()
-		print("Enemy hit")
-		if targets_hit >= pierce_amount:
-			queue_free()
-		targets_hit += 1
+	targets_hit = projectile_functions_script.remove_hit_entity(
+		self,
+		area,
+		targets_hit,
+		pierce_amount
+	)
 
 func _on_timer_timeout() -> void:
 	queue_free()

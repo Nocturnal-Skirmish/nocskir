@@ -4,14 +4,13 @@ extends CharacterBody2D
 @export var health_points = 100
 @export var damage_interval = 0.5
 @export var damage_timer = 0.0
-@export var projectile_interval = 0.05
-@export var projectile_timer = 0.0
 
 @onready var player = $Sprite2D
 @onready var enemies_in_hurtbox: Array[CharacterBody2D] = []
 @onready var enemies_in_range: Array[CharacterBody2D] = []
-@onready var SimpleProjectileScene = preload("res://scenes/simple_Projectile.tscn")
-@onready var projectile_spawn_count = 0
+@onready var send_projectile_to_enemy_inst = preload("res://scripts/projectile/send_projectile_to_enemy.gd").new()
+@onready var SimpleProjectileScene = preload("res://scenes/projectiles/simple_projectile.tscn")
+@onready var range_area = get_node("RangeArea/CollisionShape2D")
 
 func _process(delta):
 	if enemies_in_hurtbox.size() > 0:
@@ -39,34 +38,15 @@ func _process(delta):
 	if player_velocity.length() > 0:
 		player_velocity = player_velocity.normalized() * speed
 		position += player_velocity * delta
-	
-	if enemies_in_range.size() > 0:
-		projectile_timer -= delta
-		if projectile_timer <= 0.0:
-			var closest_float: float = 99999999.99
-			var closest_enemy: CharacterBody2D
-			# Selection sort
-			for enemy in enemies_in_range:
-				# Get distance from player
-				var enemy_pos = enemy.global_position
-				var player_pos = global_position
-				var distance = enemy_pos.distance_to(player_pos)
 
-				# See if its less than the current closest enemy
-				if distance < closest_float:
-					closest_float = distance
-					closest_enemy = enemy
-			
-			#Send projectile towards enemy
-			var projectile = SimpleProjectileScene.instantiate()
-			projectile.global_position = global_position
-			
-			projectile_spawn_count += 1
-			projectile.name = "%s%d" % ["SimpleProjectile", projectile_spawn_count]
-			projectile.target_body = closest_enemy
-			print(str(global_position) + " | " + projectile.name)
-			get_parent().add_child(projectile)
-			projectile_timer = projectile_interval
+	send_projectile_to_enemy_inst.shoot_closest_enemy(
+		range_area, # Range of player
+		delta,
+		self, # Player node
+		SimpleProjectileScene, # Projectile scene to be sent
+		enemies_in_range, # List of enemies in range area
+		0.5 # Projectile shoot interval
+	)
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	var enemy_body = area.get_parent()

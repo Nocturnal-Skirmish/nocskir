@@ -1,14 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://c4c8o2vcud5ux"]
 
-[ext_resource type="Script" uid="uid://bai56eb3fs53m" path="res://scripts/simple_projectile.gd" id="1_vt5mq"]
-[ext_resource type="Texture2D" uid="uid://brcb5ubp0cwdl" path="res://assets/sprites/simple_projectile_concept.png" id="2_gk4ys"]
+[ext_resource type="Script" uid="uid://dgo11beuxhvqx" path="res://scripts/projectile/simple_projectile.gd" id="1_2or1o"]
+[ext_resource type="Texture2D" uid="uid://brcb5ubp0cwdl" path="res://assets/sprites/simple_projectile_concept.png" id="1_gx08h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wydng"]
-atlas = ExtResource("2_gk4ys")
+atlas = ExtResource("1_gx08h")
 region = Rect2(40, 0, 8, 8)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mpfvp"]
-atlas = ExtResource("2_gk4ys")
+atlas = ExtResource("1_gx08h")
 region = Rect2(48, 0, 8, 8)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_puu0l"]
@@ -29,7 +29,7 @@ animations = [{
 radius = 5.0
 
 [node name="SimpleProjectile" type="Node2D"]
-script = ExtResource("1_vt5mq")
+script = ExtResource("1_2or1o")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 0.7853982
