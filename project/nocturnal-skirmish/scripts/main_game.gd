@@ -94,3 +94,10 @@ func _process(delta: float) -> void:
 	
 	if Input.is_key_pressed(KEY_Q):
 		spawn_node_outside_viewport()
+		
+	if Input.is_key_pressed(KEY_1):
+		get_node("Player/Sprite2D").texture = load("res://assets/sprites/player_temp.png")
+	elif Input.is_key_pressed(KEY_2):
+		get_node("Player/Sprite2D").texture = load("res://assets/sprites/aztec.png")
+	elif Input.is_key_pressed(KEY_3):
+		get_node("Player/Sprite2D").texture = load("res://assets/sprites/dogman.png")

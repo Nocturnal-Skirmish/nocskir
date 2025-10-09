@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var enemies_in_range: Array[CharacterBody2D] = []
 @onready var send_projectile_to_enemy_inst = preload("res://scripts/projectile/send_projectile_to_enemy.gd").new()
 @onready var SimpleProjectileScene = preload("res://scenes/projectiles/simple_projectile.tscn")
+@onready var BulletProjectileScene = preload("res://scenes/projectiles/bullet_projectile.tscn")
 @onready var range_area = get_node("RangeArea/CollisionShape2D")
 
 func _process(delta):
@@ -27,10 +28,10 @@ func _process(delta):
 		player_velocity.y += 1
 	if Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A):
 		player_velocity.x -= 1
-		player.flip_h = true
+		player.flip_h = false
 	if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D):
 		player_velocity.x += 1
-		player.flip_h = false
+		player.flip_h = true
 	
 	if Input.is_key_pressed(KEY_F):
 		print(enemies_in_range)
@@ -44,6 +45,14 @@ func _process(delta):
 		delta,
 		self, # Player node
 		SimpleProjectileScene, # Projectile scene to be sent
+		enemies_in_range, # List of enemies in range area
+		0.5 # Projectile shoot interval
+	)
+	send_projectile_to_enemy_inst.shoot_closest_enemy(
+		range_area, # Range of player
+		delta,
+		self, # Player node
+		BulletProjectileScene, # Projectile scene to be sent
 		enemies_in_range, # List of enemies in range area
 		0.5 # Projectile shoot interval
 	)
@@ -63,6 +72,8 @@ func player_take_damage():
 		if "damage_points" in enemy:
 			health_points -= enemy["damage_points"]
 			print("Damage taken! Damage: " + str(enemy["damage_points"]) + " | Health points: " + str(health_points))
+			var health_bar = get_node("Camera2D/HUDCanvas/ControlsUI/BottomLeftUi/TextureProgressBar")
+			health_bar.value = health_points
 
 			if health_points <= 0:
 				get_tree().change_scene_to_file("res://scenes/game_ui.tscn")

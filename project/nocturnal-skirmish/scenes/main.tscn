@@ -193,6 +193,7 @@ text = "C = Cycle camera Zoom
 H = Halt enemies
 P = Purple Shader
 Q = Spawn Slimes
+1,2,3 = cycle character 
 F = enemies_in_hurtbox"
 
 [node name="BottomLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
