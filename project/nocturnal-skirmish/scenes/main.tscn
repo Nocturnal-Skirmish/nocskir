@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://c7snny445dfk6"]
+[gd_scene load_steps=28 format=4 uid="uid://c7snny445dfk6"]
 
 [ext_resource type="Texture2D" uid="uid://buvwf34f0uik4" path="res://assets/tilemaps/tilemap_concept.png" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://f8d8460hbtgt" path="res://scripts/main_game.gd" id="1_tefeu"]
@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://4cdnl5ekyt42" path="res://scenes/enemy_slime.tscn" id="5_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://bh5g3w3myoegc" path="res://scripts/enemy_slime.gd" id="5_tefeu"]
-[ext_resource type="Texture2D" uid="uid://dvtk02v0t0fty" path="res://assets/sprites/health_bar_concept.png" id="6_85g3d"]
+[ext_resource type="Texture2D" uid="uid://nfwxp8fxdqbn" path="res://assets/sprites/health_bar_under.png" id="8_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://nu1m13vrvwj6" path="res://assets/sprites/health_bar_over.png" id="9_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://csp7vj5acdsee" path="res://assets/sprites/health_bar_progress.png" id="10_jbj1t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_85g3d"]
 shader = ExtResource("2_tipki")
@@ -168,6 +170,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="TopLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
 layout_mode = 1
@@ -191,27 +195,31 @@ P = Purple Shader
 Q = Spawn Slimes
 F = enemies_in_hurtbox"
 
-[node name="BottomLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
+[node name="MarginContainer" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -81.0
-offset_right = 161.0
+offset_top = -35.0
+offset_right = 116.0
+offset_bottom = -10.0
 grow_vertical = 0
-scale = Vector2(2.5, 2.5)
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
+scale = Vector2(3.5, 3.5)
+pivot_offset = Vector2(0, 21)
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Player/Camera2D/HUDCanvas/ControlsUI/MarginContainer"]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("6_85g3d")
-stretch_mode = 4
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("8_a8y0u")
+texture_over = ExtResource("9_jkv2x")
+texture_progress = ExtResource("10_jbj1t")
 
 [node name="HurtBox" type="Area2D" parent="Player"]
 
