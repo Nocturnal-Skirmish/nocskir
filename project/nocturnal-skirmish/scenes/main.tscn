@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://c7snny445dfk6"]
+[gd_scene load_steps=26 format=4 uid="uid://c7snny445dfk6"]
 
 [ext_resource type="Texture2D" uid="uid://buvwf34f0uik4" path="res://assets/tilemaps/tilemap_concept.png" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://f8d8460hbtgt" path="res://scripts/main_game.gd" id="1_tefeu"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://4cdnl5ekyt42" path="res://scenes/enemy_slime.tscn" id="5_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://bh5g3w3myoegc" path="res://scripts/enemy_slime.gd" id="5_tefeu"]
+[ext_resource type="Texture2D" uid="uid://dvtk02v0t0fty" path="res://assets/sprites/health_bar_concept.png" id="6_85g3d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_85g3d"]
 shader = ExtResource("2_tipki")
@@ -158,6 +159,60 @@ position = Vector2(0, 7.6293945e-06)
 shape = SubResource("RectangleShape2D_tipki")
 debug_color = Color(0, 0.62866974, 0.49322212, 0.41960785)
 
+[node name="HUDCanvas" type="CanvasLayer" parent="Player/Camera2D"]
+
+[node name="ControlsUI" type="Control" parent="Player/Camera2D/HUDCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
+layout_mode = 1
+offset_right = 182.0
+offset_bottom = 127.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="MarginContainer" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI/TopLeftUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Player/Camera2D/HUDCanvas/ControlsUI/TopLeftUi/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "C = Cycle camera Zoom
+H = Halt enemies
+P = Purple Shader
+Q = Spawn Slimes
+F = enemies_in_hurtbox"
+
+[node name="BottomLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -81.0
+offset_right = 161.0
+grow_vertical = 0
+scale = Vector2(2.5, 2.5)
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Player/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_85g3d")
+stretch_mode = 4
+
 [node name="HurtBox" type="Area2D" parent="Player"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/HurtBox"]
@@ -224,28 +279,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_tipki")
 debug_color = Color(0, 0.64705884, 0.2784314, 0.12156863)
 
-[node name="ControlsUI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlsUI"]
-layout_mode = 1
-offset_right = 179.0
-offset_bottom = 75.0
-
-[node name="Label" type="Label" parent="ControlsUI/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 1
-text = "C = Cycle camera Zoom
-H = Halt enemies
-P = Purple Shader
-Q = Spawn Slimes
-F = enemies_in_hurtbox"
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="area_entered" from="Player/HurtBox" to="Player" method="_on_hurt_box_area_entered"]
