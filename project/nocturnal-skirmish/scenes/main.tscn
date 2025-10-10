@@ -316,8 +316,128 @@ debug_color = Color(0, 0.64705884, 0.2784314, 0.12156863)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+[node name="Player2" type="CharacterBody2D" parent="."]
+position = Vector2(-553, -71)
+collision_mask = 3
+platform_on_leave = 2
+platform_floor_layers = 4294967040
+script = ExtResource("3_sugp2")
+speed = 100
+
+[node name="Sprite2D" type="Sprite2D" parent="Player2"]
+texture = ExtResource("2_sugp2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2"]
+shape = SubResource("CapsuleShape2D_0wfyh")
+
+[node name="Camera2D" type="Camera2D" parent="Player2"]
+
+[node name="CameraMaxViewArea" type="Area2D" parent="Player2/Camera2D"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2/Camera2D/CameraMaxViewArea"]
+position = Vector2(0, 7.6293945e-06)
+shape = SubResource("RectangleShape2D_tipki")
+debug_color = Color(0, 0.62866974, 0.49322212, 0.41960785)
+
+[node name="HUDCanvas" type="CanvasLayer" parent="Player2/Camera2D"]
+
+[node name="ControlsUI" type="Control" parent="Player2/Camera2D/HUDCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TopLeftUi" type="MarginContainer" parent="Player2/Camera2D/HUDCanvas/ControlsUI"]
+layout_mode = 1
+offset_right = 182.0
+offset_bottom = 127.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="MarginContainer" type="MarginContainer" parent="Player2/Camera2D/HUDCanvas/ControlsUI/TopLeftUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Player2/Camera2D/HUDCanvas/ControlsUI/TopLeftUi/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "C = Cycle camera Zoom
+H = Halt enemies
+P = Purple Shader
+Q = Spawn Slimes
+1,2,3 = cycle character 
+F = enemies_in_range"
+
+[node name="BottomLeftUi" type="MarginContainer" parent="Player2/Camera2D/HUDCanvas/ControlsUI"]
+custom_minimum_size = Vector2(100, 21)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -35.0
+offset_right = 116.0
+offset_bottom = -10.0
+grow_vertical = 0
+scale = Vector2(3.5, 3.5)
+pivot_offset = Vector2(0, 21)
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Player2/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="ProgressUnderBar" type="TextureRect" parent="Player2/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("8_a8y0u")
+stretch_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Player2/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+custom_minimum_size = Vector2(76, 21)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("10_jbj1t")
+texture_progress_offset = Vector2(5, 0)
+
+[node name="ProgressOverBar" type="TextureRect" parent="Player2/Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+custom_minimum_size = Vector2(100, 21)
+layout_mode = 2
+texture = ExtResource("9_jkv2x")
+stretch_mode = 2
+
+[node name="HurtBox" type="Area2D" parent="Player2"]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2/HurtBox"]
+shape = SubResource("CapsuleShape2D_o6xl0")
+debug_color = Color(1, 0, 0.13333334, 0.16078432)
+
+[node name="RangeArea" type="Area2D" parent="Player2"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2/RangeArea"]
+shape = SubResource("CircleShape2D_tipki")
+debug_color = Color(0.9764706, 0, 0.42745098, 0.1254902)
+
 [connection signal="ready" from="Player" to="Player" method="_on_ready"]
 [connection signal="area_entered" from="Player/HurtBox" to="Player" method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="Player/HurtBox" to="Player" method="_on_hurt_box_area_exited"]
 [connection signal="area_entered" from="Player/RangeArea" to="Player" method="_on_range_area_entered"]
 [connection signal="area_exited" from="Player/RangeArea" to="Player" method="_on_range_area_exited"]
+[connection signal="ready" from="Player2" to="Player2" method="_on_ready"]
+[connection signal="area_entered" from="Player2/HurtBox" to="Player2" method="_on_hurt_box_area_entered"]
+[connection signal="area_exited" from="Player2/HurtBox" to="Player2" method="_on_hurt_box_area_exited"]
+[connection signal="area_entered" from="Player2/RangeArea" to="Player2" method="_on_range_area_entered"]
+[connection signal="area_exited" from="Player2/RangeArea" to="Player2" method="_on_range_area_exited"]

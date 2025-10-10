@@ -16,6 +16,7 @@ extends CharacterBody2D
 @onready var random_player_target: bool = false
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# TODO: Optimize sort algorithm
 # Sorts closest player out of a list of players
 func sort_closest(
 	players_array: Array[CharacterBody2D],
