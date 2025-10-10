@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1fvjo26mdllg"]
+
+[ext_resource type="PackedScene" uid="uid://cde40g1sbdqxk" path="res://scenes/enemies/base_enemy.tscn" id="1_qtiko"]
+[ext_resource type="Script" uid="uid://cfyoytm5eqd13" path="res://scripts/enemies/enemy_slime.gd" id="2_87i5p"]
+[ext_resource type="Texture2D" uid="uid://cjxavq7dhq60t" path="res://assets/sprites/inverted_slime_concept.png" id="3_0e57k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5qtk"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnjsh"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m074"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mop1w"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mim4"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2p468"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5qtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnjsh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8m074")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mop1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mim4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="EnemySlime" instance=ExtResource("1_qtiko")]
+script = ExtResource("2_87i5p")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_2p468")
+frame = 0
+frame_progress = 0.1736113
+
+[connection signal="ready" from="." to="." method="_on_ready"]

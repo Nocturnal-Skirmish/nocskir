@@ -8,7 +8,7 @@ extends CharacterBody2D
 @onready var player = $Sprite2D
 @onready var enemies_in_hurtbox: Array[CharacterBody2D] = []
 @onready var enemies_in_range: Array[CharacterBody2D] = []
-@onready var send_projectile_to_enemy_inst = preload("res://scripts/projectile/send_projectile_to_enemy.gd").new()
+@onready var projectile_functions = ProjectileFunctions.new()
 @onready var SimpleProjectileScene = preload("res://scenes/projectiles/simple_projectile.tscn")
 @onready var BulletProjectileScene = preload("res://scenes/projectiles/bullet_projectile.tscn")
 @onready var range_area = get_node("RangeArea/CollisionShape2D")
@@ -40,7 +40,7 @@ func _process(delta):
 		player_velocity = player_velocity.normalized() * speed
 		position += player_velocity * delta
 
-	send_projectile_to_enemy_inst.shoot_closest_enemy(
+	projectile_functions.shoot_closest_enemy(
 		range_area, # Range of player
 		delta,
 		self, # Player node
@@ -48,7 +48,7 @@ func _process(delta):
 		enemies_in_range, # List of enemies in range area
 		0.5 # Projectile shoot interval
 	)
-	send_projectile_to_enemy_inst.shoot_closest_enemy(
+	projectile_functions.shoot_closest_enemy(
 		range_area, # Range of player
 		delta,
 		self, # Player node
@@ -58,14 +58,16 @@ func _process(delta):
 	)
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	var enemy_body = area.get_parent()
-	if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
-		enemies_in_hurtbox.append(enemy_body)
+	if area.name == "HitBox":
+		var enemy_body = area.get_parent()
+		if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
+			enemies_in_hurtbox.append(enemy_body)
 
 func _on_hurt_box_area_exited(area: Area2D) -> void:
-	var enemy_body = area.get_parent()
-	if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
-		enemies_in_hurtbox.erase(enemy_body)
+	if area.name == "HitBox":
+		var enemy_body = area.get_parent()
+		if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
+			enemies_in_hurtbox.erase(enemy_body)
 
 func player_take_damage():
 	for enemy in enemies_in_hurtbox:
@@ -79,11 +81,19 @@ func player_take_damage():
 				get_tree().change_scene_to_file("res://scenes/game_ui.tscn")
 
 func _on_range_area_entered(area: Area2D) -> void:
-	var enemy_body = area.get_parent()
-	if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
-		enemies_in_range.append(enemy_body)
+	if area.name == "HitBox":
+		var enemy_body = area.get_parent()
+		if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
+			enemies_in_range.append(enemy_body)
 
 func _on_range_area_exited(area: Area2D) -> void:
-	var enemy_body = area.get_parent()
-	if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
-		enemies_in_range.erase(enemy_body)
+	if area.name == "HitBox":
+		var enemy_body = area.get_parent()
+		if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
+			enemies_in_range.erase(enemy_body)
+
+# add self to player list group
+func _on_ready() -> void:
+	add_to_group("player_list")
+	var players = get_tree().get_nodes_in_group("player_list")
+	print(players)

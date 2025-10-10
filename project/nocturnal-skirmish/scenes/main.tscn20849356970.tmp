@@ -176,7 +176,6 @@ tile_set = SubResource("TileSet_tipki")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 collision_mask = 3
-platform_on_leave = 2
 platform_floor_layers = 4294967040
 script = ExtResource("3_sugp2")
 speed = 100
@@ -230,7 +229,7 @@ H = Halt enemies
 P = Purple Shader
 Q = Spawn Slimes
 1,2,3 = cycle character 
-F = enemies_in_range"
+F = enemies_in_hurtbox"
 
 [node name="BottomLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
 custom_minimum_size = Vector2(100, 21)
@@ -274,15 +273,12 @@ texture = ExtResource("9_jkv2x")
 stretch_mode = 2
 
 [node name="HurtBox" type="Area2D" parent="Player"]
-collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/HurtBox"]
 shape = SubResource("CapsuleShape2D_o6xl0")
 debug_color = Color(1, 0, 0.13333334, 0.16078432)
 
 [node name="RangeArea" type="Area2D" parent="Player"]
-collision_layer = 0
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RangeArea"]
 shape = SubResource("CircleShape2D_tipki")

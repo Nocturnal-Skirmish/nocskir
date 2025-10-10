@@ -1,0 +1,105 @@
+[gd_scene load_steps=13 format=3 uid="uid://cde40g1sbdqxk"]
+
+[ext_resource type="Script" uid="uid://c44rnkq5kmwit" path="res://scripts/enemies/base_enemy.gd" id="1_qf3h2"]
+[ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="2_lkvl6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n763p"]
+atlas = ExtResource("2_lkvl6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylyo2"]
+atlas = ExtResource("2_lkvl6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2t7ph"]
+atlas = ExtResource("2_lkvl6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2ebm"]
+atlas = ExtResource("2_lkvl6")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1su5"]
+atlas = ExtResource("2_lkvl6")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hwcqj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n763p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylyo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2t7ph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2ebm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1su5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h4c3k"]
+radius = 11.045361
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ahw5l"]
+radius = 14.035668
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qf3h2"]
+radius = 433.07388
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lkvl6"]
+radius = 107.16809
+
+[node name="BaseEnemy" type="CharacterBody2D"]
+script = ExtResource("1_qf3h2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_hwcqj")
+autoplay = "default"
+frame = 1
+frame_progress = 0.4376826
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
+shape = SubResource("CircleShape2D_h4c3k")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_ahw5l")
+debug_color = Color(9.62615e-08, 0.6358451, 0.41608882, 0.41960785)
+
+[node name="ChaseRange" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseRange"]
+shape = SubResource("CircleShape2D_qf3h2")
+debug_color = Color(0.9843137, 0, 0.34901962, 0.13333334)
+
+[node name="DetectionRange" type="Area2D" parent="."]
+collision_layer = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
+shape = SubResource("CircleShape2D_lkvl6")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="SortClosestCooldown" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="area_entered" from="ChaseRange" to="." method="_on_chase_range_area_entered"]
+[connection signal="area_exited" from="ChaseRange" to="." method="_on_chase_range_area_exited"]
+[connection signal="area_entered" from="DetectionRange" to="." method="_on_detection_range_area_entered"]
+[connection signal="area_exited" from="DetectionRange" to="." method="_on_detection_range_area_exited"]
+[connection signal="timeout" from="SortClosestCooldown" to="." method="_on_sort_closest_cooldown_timeout"]

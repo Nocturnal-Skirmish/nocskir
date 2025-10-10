@@ -16,6 +16,10 @@ run/main_scene="uid://23novt00b5vr"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+player_list="All players in main scene"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

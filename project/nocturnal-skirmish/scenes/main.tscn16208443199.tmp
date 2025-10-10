@@ -1,11 +1,13 @@
-[gd_scene load_steps=27 format=4 uid="uid://c7snny445dfk6"]
+[gd_scene load_steps=28 format=4 uid="uid://c7snny445dfk6"]
 
 [ext_resource type="Script" uid="uid://f8d8460hbtgt" path="res://scripts/main_game.gd" id="1_tefeu"]
 [ext_resource type="Texture2D" uid="uid://bcdbr4fjobibp" path="res://assets/sprites/player_temp.png" id="2_sugp2"]
 [ext_resource type="Shader" uid="uid://5qsy7qneoege" path="res://shaders/Tilemap.gdshader" id="2_tipki"]
 [ext_resource type="Script" uid="uid://bfodxl1lg2mmt" path="res://scripts/player.gd" id="3_sugp2"]
 [ext_resource type="Texture2D" uid="uid://2kgygg4fokpm" path="res://assets/tilemaps/tilemap_concept-sheet.png" id="3_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://4cdnl5ekyt42" path="res://scenes/enemy_slime.tscn" id="5_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://bh5g3w3myoegc" path="res://scripts/enemy_slime.gd" id="5_tefeu"]
 [ext_resource type="Texture2D" uid="uid://nfwxp8fxdqbn" path="res://assets/sprites/health_bar_under.png" id="8_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://nu1m13vrvwj6" path="res://assets/sprites/health_bar_over.png" id="9_jkv2x"]
 [ext_resource type="Texture2D" uid="uid://csp7vj5acdsee" path="res://assets/sprites/health_bar_progress.png" id="10_jbj1t"]
@@ -67,33 +69,6 @@ size = Vector2(1497.6, 842.4)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tipki"]
 radius = 100.0
-
-[sub_resource type="GDScript" id="GDScript_85g3d"]
-script/source = "extends CharacterBody2D
-
-@onready var player = get_node(\"../Player\")
-@export var speed = 40
-@export var health_points = 10
-@export var damage_points = 5
-@export var entity_type = \"enemy\"
-@export var enemy_type = \"small_enemy\"
-
-func chase():
-	var direction = global_position.direction_to(player.global_position)
-	velocity = direction * speed
-	
-	if velocity.x > 0:
-		$AnimatedSprite2D.flip_h = false
-	else:
-		$AnimatedSprite2D.flip_h = true
-	
-	move_and_slide()
-
-func _process(delta):
-	
-	if not Input.is_key_pressed(KEY_H):
-		chase()
-"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tefeu"]
 atlas = ExtResource("5_tbgi4")
@@ -176,7 +151,6 @@ tile_set = SubResource("TileSet_tipki")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 collision_mask = 3
-platform_on_leave = 2
 platform_floor_layers = 4294967040
 script = ExtResource("3_sugp2")
 speed = 100
@@ -230,7 +204,7 @@ H = Halt enemies
 P = Purple Shader
 Q = Spawn Slimes
 1,2,3 = cycle character 
-F = enemies_in_range"
+F = enemies_in_hurtbox"
 
 [node name="BottomLeftUi" type="MarginContainer" parent="Player/Camera2D/HUDCanvas/ControlsUI"]
 custom_minimum_size = Vector2(100, 21)
@@ -274,26 +248,51 @@ texture = ExtResource("9_jkv2x")
 stretch_mode = 2
 
 [node name="HurtBox" type="Area2D" parent="Player"]
-collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/HurtBox"]
 shape = SubResource("CapsuleShape2D_o6xl0")
 debug_color = Color(1, 0, 0.13333334, 0.16078432)
 
 [node name="RangeArea" type="Area2D" parent="Player"]
-collision_layer = 0
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RangeArea"]
 shape = SubResource("CircleShape2D_tipki")
 debug_color = Color(0.9764706, 0, 0.42745098, 0.1254902)
+
+[node name="EnemySlime" parent="." instance=ExtResource("5_o6xl0")]
+position = Vector2(50, 0)
+
+[node name="EnemySlime2" type="CharacterBody2D" parent="."]
+position = Vector2(100, 0)
+collision_layer = 2
+collision_mask = 3
+platform_floor_layers = 4294967040
+script = ExtResource("5_tefeu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="EnemySlime2"]
+sprite_frames = SubResource("SpriteFrames_eb6dy")
+animation = &"movement"
+autoplay = "movement"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySlime2"]
+position = Vector2(1, 7)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_tefeu")
+
+[node name="HitBox" type="Area2D" parent="EnemySlime2"]
+position = Vector2(1, 7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySlime2/HitBox"]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_tipki")
+debug_color = Color(0, 0.64705884, 0.2784314, 0.12156863)
 
 [node name="NotEnemy" type="CharacterBody2D" parent="."]
 position = Vector2(200, 0)
 collision_layer = 2
 collision_mask = 3
 platform_floor_layers = 4294967040
-script = SubResource("GDScript_85g3d")
+script = ExtResource("5_tefeu")
 entity_type = "NotEnemy"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="NotEnemy"]

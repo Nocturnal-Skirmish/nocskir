@@ -2,14 +2,13 @@ extends Node2D
 
 @export var camera_timer = 0.0
 @export var camera_interval = 0.5
-var camera_state = 3
-
-var shader_enabled = false
-
 @export var enemy_spawn_timer = 0.0
 @export var enemy_spawn_interval = 5
-@onready var EnemySlimeScene = preload("res://scenes/enemy_slime.tscn")
+@onready var EnemySlimeScene = preload("res://scenes/enemies/enemy_slime.tscn")
 @onready var spawn_count = 0
+
+var camera_state = 3
+var shader_enabled = false
 
 func spawn_node_outside_viewport():
 	var camera_max_view_area = get_node("Player/Camera2D/CameraMaxViewArea")

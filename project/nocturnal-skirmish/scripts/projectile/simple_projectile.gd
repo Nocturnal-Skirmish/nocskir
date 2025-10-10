@@ -1,6 +1,7 @@
 extends Node2D
+class_name SimpleProjectile
 
-@onready var projectile_functions_script = preload("res://scripts/projectile/projectile_functions.gd").new()
+@onready var projectile_functions_script = ProjectileFunctions.new()
 @export var projectile_speed = 300
 @export var projectile_damage = 2
 @export var pierce_amount = 1
@@ -21,12 +22,13 @@ func _on_ready() -> void:
 
 # Handle collision with enemy
 func _on_hit_box_area_entered(area: Area2D) -> void:
-	targets_hit = projectile_functions_script.remove_hit_entity(
-		self,
-		area,
-		targets_hit,
-		pierce_amount
-	)
+	if area.name == "HitBox":
+		targets_hit = projectile_functions_script.remove_hit_entity(
+			self,
+			area,
+			targets_hit,
+			pierce_amount
+		)
 
 func _on_timer_timeout() -> void:
 	queue_free()
