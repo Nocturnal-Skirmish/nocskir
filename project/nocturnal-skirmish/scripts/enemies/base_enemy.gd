@@ -120,11 +120,37 @@ func get_closest() -> void:
 func _ready() -> void:
 	get_closest()
 
+func damage_animation() -> void:
+	# Get sprite frame
+	var current_frame = animated_sprite.frame
+	animated_sprite.animation = "hurt"
+	animated_sprite.frame = current_frame
+	$HurtAnimationTimer.start()
+
 func _on_sort_closest_cooldown_timeout() -> void:
 	get_closest()
+
+# Function that runs upon death
+func die() -> void:
+	print("%s killed." % [name])
+	#TODO: change to soul orb variation
+	var soul_orb = BaseSoulOrb.new().instantiate_scene()
+	soul_orb.global_position = global_position
+	get_parent().add_child(soul_orb)
+	queue_free()
 
 # Chase loop and stop on H
 func _process(delta: float) -> void:
 	# Temporary input
 	if not Input.is_key_pressed(KEY_H):
 		chase()
+	
+	# Check if self is dead
+	if health_points <= 0.0:
+		die()
+
+# change to default when animation timer is up
+func _on_hurt_animation_timer_timeout() -> void:
+	var current_frame = animated_sprite.frame
+	animated_sprite.animation = "default"
+	animated_sprite.frame = current_frame

@@ -1,7 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://by587xtynq2uw"]
 
-[ext_resource type="Script" uid="uid://dork4ufv8xw05" path="res://scripts/projectile/bullet_projectile.gd" id="1_v4hmp"]
+[ext_resource type="PackedScene" uid="uid://cdj0x6pf112by" path="res://scenes/projectiles/base_projectile.tscn" id="1_v4hmp"]
 [ext_resource type="Texture2D" uid="uid://brcb5ubp0cwdl" path="res://assets/sprites/simple_projectile_concept.png" id="2_pfba5"]
+[ext_resource type="Script" uid="uid://dkkxefcnxjol1" path="res://scripts/projectiles/bullet_projectile.gd" id="2_tclso"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dnn0w"]
 atlas = ExtResource("2_pfba5")
@@ -23,7 +24,7 @@ region = Rect2(24, 0, 8, 8)
 atlas = ExtResource("2_pfba5")
 region = Rect2(32, 0, 8, 8)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_puu0l"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_pfba5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -46,30 +47,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1ydfj"]
-radius = 5.0
+[node name="BulletProjectile" instance=ExtResource("1_v4hmp")]
+script = ExtResource("2_tclso")
 
-[node name="BulletProjectile" type="Node2D"]
-script = ExtResource("1_v4hmp")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-rotation = 0.7853982
-sprite_frames = SubResource("SpriteFrames_puu0l")
-autoplay = "default"
-speed_scale = 2.0
-
-[node name="HitBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-shape = SubResource("CircleShape2D_1ydfj")
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
-autostart = true
-
-[connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_pfba5")

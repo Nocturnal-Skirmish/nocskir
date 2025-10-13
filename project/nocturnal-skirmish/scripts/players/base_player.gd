@@ -1,17 +1,27 @@
 extends CharacterBody2D
+class_name BasePlayer
 
-@export var speed = 200
-@export var health_points = 100
+@export var player_name: String = "PlayerMan"
+@export var character_name: String = "DefaultMan"
+@export var speed: int = 200
+@export var health_points: float = 100
+@export var soul_orb_amount: float = 0
+@export var soul_orb_level = 0
+@export var soul_orb_gain_mult = 1
 @export var damage_interval = 0.5
 @export var damage_timer = 0.0
+@export var magnet_speed_mult: float = 5.0
 
-@onready var player = $Sprite2D
+@onready var player_sprite = $AnimatedSprite2D
 @onready var enemies_in_hurtbox: Array[CharacterBody2D] = []
 @onready var enemies_in_range: Array[CharacterBody2D] = []
 @onready var projectile_functions = ProjectileFunctions.new()
-@onready var SimpleProjectileScene = preload("res://scenes/projectiles/simple_projectile.tscn")
-@onready var BulletProjectileScene = preload("res://scenes/projectiles/bullet_projectile.tscn")
+@onready var SimpleProjectileScene = SimpleProjectile.new()
+@onready var BulletProjectileScene = BulletProjectile.new()
 @onready var range_area = get_node("RangeArea/CollisionShape2D")
+@onready var soul_orb_amount_label = $Camera2D/HUDCanvas/ControlsUI/TopRightUi/MarginContainer/SoulOrbAmountLabel
+
+@export var entity_type = "player"
 
 func _process(delta):
 	if enemies_in_hurtbox.size() > 0:
@@ -28,10 +38,10 @@ func _process(delta):
 		player_velocity.y += 1
 	if Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A):
 		player_velocity.x -= 1
-		player.flip_h = false
+		player_sprite.flip_h = false
 	if Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D):
 		player_velocity.x += 1
-		player.flip_h = true
+		player_sprite.flip_h = true
 	
 	if Input.is_key_pressed(KEY_F):
 		print(enemies_in_range)
@@ -44,7 +54,7 @@ func _process(delta):
 		range_area, # Range of player
 		delta,
 		self, # Player node
-		SimpleProjectileScene, # Projectile scene to be sent
+		SimpleProjectileScene.instantiate_scene(), # Projectile scene to be sent
 		enemies_in_range, # List of enemies in range area
 		0.5 # Projectile shoot interval
 	)
@@ -52,7 +62,7 @@ func _process(delta):
 		range_area, # Range of player
 		delta,
 		self, # Player node
-		BulletProjectileScene, # Projectile scene to be sent
+		BulletProjectileScene.instantiate_scene(), # Projectile scene to be sent
 		enemies_in_range, # List of enemies in range area
 		0.5 # Projectile shoot interval
 	)
@@ -92,8 +102,37 @@ func _on_range_area_exited(area: Area2D) -> void:
 		if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
 			enemies_in_range.erase(enemy_body)
 
+# Updates label with soul orb amount
+func update_soul_orb_label() -> void:
+	soul_orb_amount_label.text = "Soul Orb Amount: %s" % [soul_orb_amount]
+
 # add self to player list group
 func _on_ready() -> void:
 	add_to_group("player_list")
 	var players = get_tree().get_nodes_in_group("player_list")
 	print(players)
+	
+	$AnimatedSprite2D/PlayerNameLabel.text = player_name
+
+# When pickup is in range
+func _on_pickup_range_area_entered(area: Area2D) -> void:
+	var pickup = area.get_parent()
+	if "entity_type" in pickup and pickup["entity_type"] == "pickup" and "pickup_type" in pickup:
+		match pickup["pickup_type"]:
+			"soul_orb":
+				soul_orb_amount += (pickup["soul_amount"] * soul_orb_gain_mult)
+				update_soul_orb_label()
+				pickup.queue_free()
+
+func _on_pickup_magnet_range_area_entered(area: Area2D) -> void:
+	var pickup = area.get_parent()
+	if "entity_type" in pickup and pickup["entity_type"] == "pickup" and pickup["pulled_by_magnet"]:
+		pickup["magnet_speed_mult"] = magnet_speed_mult
+		pickup["magnet_target"] = self
+
+
+func _on_pickup_magnet_range_area_exited(area: Area2D) -> void:
+	var pickup = area.get_parent()
+	if "entity_type" in pickup and pickup["entity_type"] == "pickup" and pickup["pulled_by_magnet"]:
+		pickup["magnet_speed_mult"] = 1.0
+		pickup["magnet_target"] = null

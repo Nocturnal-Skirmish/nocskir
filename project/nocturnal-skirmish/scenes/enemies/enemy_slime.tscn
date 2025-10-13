@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d1fvjo26mdllg"]
+[gd_scene load_steps=15 format=3 uid="uid://d1fvjo26mdllg"]
 
 [ext_resource type="PackedScene" uid="uid://cde40g1sbdqxk" path="res://scenes/enemies/base_enemy.tscn" id="1_qtiko"]
 [ext_resource type="Script" uid="uid://cfyoytm5eqd13" path="res://scripts/enemies/enemy_slime.gd" id="2_87i5p"]
@@ -24,6 +24,26 @@ region = Rect2(96, 0, 32, 32)
 atlas = ExtResource("3_0e57k")
 region = Rect2(128, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e57k"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2p468"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1uga"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adlug"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uha0q"]
+atlas = ExtResource("3_0e57k")
+region = Rect2(128, 32, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_2p468"]
 animations = [{
 "frames": [{
@@ -45,6 +65,26 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0e57k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2p468")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1uga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adlug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uha0q")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
 }]
 
 [node name="EnemySlime" instance=ExtResource("1_qtiko")]
@@ -52,7 +92,8 @@ script = ExtResource("2_87i5p")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2p468")
+animation = &"hurt"
 frame = 0
-frame_progress = 0.1736113
+frame_progress = 0.0
 
 [connection signal="ready" from="." to="." method="_on_ready"]

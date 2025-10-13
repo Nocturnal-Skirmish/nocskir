@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://cde40g1sbdqxk"]
+[gd_scene load_steps=20 format=3 uid="uid://cde40g1sbdqxk"]
 
 [ext_resource type="Script" uid="uid://c44rnkq5kmwit" path="res://scripts/enemies/base_enemy.gd" id="1_qf3h2"]
 [ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="2_lkvl6"]
+[ext_resource type="Texture2D" uid="uid://cjxavq7dhq60t" path="res://assets/sprites/inverted_slime_concept.png" id="3_lkvl6"]
+[ext_resource type="Theme" uid="uid://bibk1lggkhdsi" path="res://themes/buttonlabel_theme.tres" id="4_n763p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n763p"]
 atlas = ExtResource("2_lkvl6")
@@ -22,6 +24,26 @@ region = Rect2(96, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_i1su5"]
 atlas = ExtResource("2_lkvl6")
 region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwcqj"]
+atlas = ExtResource("3_lkvl6")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4c3k"]
+atlas = ExtResource("3_lkvl6")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahw5l"]
+atlas = ExtResource("3_lkvl6")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_saudc"]
+atlas = ExtResource("3_lkvl6")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v35a0"]
+atlas = ExtResource("3_lkvl6")
+region = Rect2(128, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hwcqj"]
 animations = [{
@@ -44,6 +66,26 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwcqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4c3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahw5l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_saudc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v35a0")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h4c3k"]
@@ -59,13 +101,35 @@ radius = 433.07388
 radius = 107.16809
 
 [node name="BaseEnemy" type="CharacterBody2D"]
+collision_layer = 2
+platform_on_leave = 2
+platform_floor_layers = 4294967040
 script = ExtResource("1_qf3h2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_hwcqj")
 autoplay = "default"
-frame = 1
-frame_progress = 0.4376826
+
+[node name="DamageNumberLabel" type="Label" parent="AnimatedSprite2D"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -27.5
+offset_right = 4.0
+offset_bottom = -4.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("4_n763p")
+theme_override_colors/font_color = Color(0.98333335, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 0.53333336, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "10"
+horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)
@@ -85,21 +149,26 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseRange"]
 shape = SubResource("CircleShape2D_qf3h2")
-debug_color = Color(0.9843137, 0, 0.34901962, 0.13333334)
+debug_color = Color(0.77775514, 0.40624177, 0.45393187, 0)
 
 [node name="DetectionRange" type="Area2D" parent="."]
 collision_layer = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
 shape = SubResource("CircleShape2D_lkvl6")
-debug_color = Color(1, 0, 0, 0.41960785)
+debug_color = Color(1, 0, 0, 0)
 
 [node name="SortClosestCooldown" type="Timer" parent="."]
 wait_time = 10.0
 autostart = true
+
+[node name="HurtAnimationTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
 
 [connection signal="area_entered" from="ChaseRange" to="." method="_on_chase_range_area_entered"]
 [connection signal="area_exited" from="ChaseRange" to="." method="_on_chase_range_area_exited"]
 [connection signal="area_entered" from="DetectionRange" to="." method="_on_detection_range_area_entered"]
 [connection signal="area_exited" from="DetectionRange" to="." method="_on_detection_range_area_exited"]
 [connection signal="timeout" from="SortClosestCooldown" to="." method="_on_sort_closest_cooldown_timeout"]
+[connection signal="timeout" from="HurtAnimationTimer" to="." method="_on_hurt_animation_timer_timeout"]

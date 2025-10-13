@@ -20,6 +20,13 @@ config/icon="res://icon.svg"
 
 player_list="All players in main scene"
 
+[layer_names]
+
+2d_physics/layer_1="PlayersHurtBox"
+2d_physics/layer_2="EnemiesHitbox"
+2d_physics/layer_3="Pickup"
+2d_physics/layer_8="EnemyDetectPlayersRange"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
