@@ -1,9 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://cde40g1sbdqxk"]
+[gd_scene load_steps=19 format=3 uid="uid://cde40g1sbdqxk"]
 
 [ext_resource type="Script" uid="uid://c44rnkq5kmwit" path="res://scripts/enemies/base_enemy.gd" id="1_qf3h2"]
 [ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="2_lkvl6"]
 [ext_resource type="Texture2D" uid="uid://cjxavq7dhq60t" path="res://assets/sprites/inverted_slime_concept.png" id="3_lkvl6"]
-[ext_resource type="Theme" uid="uid://bibk1lggkhdsi" path="res://themes/buttonlabel_theme.tres" id="4_n763p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n763p"]
 atlas = ExtResource("2_lkvl6")
@@ -109,27 +108,6 @@ script = ExtResource("1_qf3h2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_hwcqj")
 autoplay = "default"
-
-[node name="DamageNumberLabel" type="Label" parent="AnimatedSprite2D"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -27.5
-offset_right = 4.0
-offset_bottom = -4.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme = ExtResource("4_n763p")
-theme_override_colors/font_color = Color(0.98333335, 1, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 0.53333336, 0, 1)
-theme_override_font_sizes/font_size = 16
-text = "10"
-horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)

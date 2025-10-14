@@ -31,6 +31,7 @@ func hit_enemy_entity(hit_box: Area2D) -> void:
 	if "entity_type" in enemy_body and enemy_body["entity_type"] == target_entity_type:
 		enemy_body["health_points"] -= projectile_damage
 		enemy_body.damage_animation()
+		enemy_body.show_damage_number_on_hit(projectile_damage)
 		if targets_hit >= pierce_amount:
 			queue_free()
 		targets_hit += 1

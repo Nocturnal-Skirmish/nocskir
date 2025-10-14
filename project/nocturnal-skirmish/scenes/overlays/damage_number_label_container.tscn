@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://w3kmn3n1iome"]
+
+[ext_resource type="Theme" uid="uid://bibk1lggkhdsi" path="res://themes/buttonlabel_theme.tres" id="1_buvj4"]
+[ext_resource type="Shader" uid="uid://xaxht5lewufg" path="res://shaders/opacity_shader.gdshader" id="1_d31hl"]
+[ext_resource type="Script" uid="uid://dek4t1c8c6ofd" path="res://scripts/overlays/damage_number_label_container.gd" id="2_d31hl"]
+[ext_resource type="Texture2D" uid="uid://b6itpjk1be6ax" path="res://assets/sprites/damage_icon_concept.png" id="3_f1lc6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f1lc6"]
+shader = ExtResource("1_d31hl")
+shader_parameter/fade = 1.0
+
+[node name="DamageNumberLabelContainer" type="Control"]
+material = SubResource("ShaderMaterial_f1lc6")
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -11.5
+offset_right = 21.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_buvj4")
+script = ExtResource("2_d31hl")
+
+[node name="DamageNumberLabelBox" type="HBoxContainer" parent="."]
+use_parent_material = true
+layout_mode = 0
+offset_left = 1.0
+offset_right = 41.0
+offset_bottom = 23.0
+size_flags_horizontal = 4
+theme_override_constants/separation = 2
+
+[node name="DamageIcon" type="TextureRect" parent="DamageNumberLabelBox"]
+use_parent_material = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_f1lc6")
+stretch_mode = 2
+
+[node name="DamageNumberLabel" type="Label" parent="DamageNumberLabelBox"]
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_buvj4")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.9764706, 0.65882355, 0.14509805, 1)
+theme_override_font_sizes/font_size = 16
+text = "10"

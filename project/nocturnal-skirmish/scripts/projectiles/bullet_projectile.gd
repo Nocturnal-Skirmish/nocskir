@@ -2,6 +2,7 @@ extends BaseProjectile
 class_name BulletProjectile
 
 func _ready() -> void:
+	projectile_damage = 2.5
 	projectile_speed = 50
 	pierce_amount = 100
 

@@ -120,6 +120,9 @@ func get_closest() -> void:
 func _ready() -> void:
 	get_closest()
 
+func _on_sort_closest_cooldown_timeout() -> void:
+	get_closest()
+	
 func damage_animation() -> void:
 	# Get sprite frame
 	var current_frame = animated_sprite.frame
@@ -127,8 +130,19 @@ func damage_animation() -> void:
 	animated_sprite.frame = current_frame
 	$HurtAnimationTimer.start()
 
-func _on_sort_closest_cooldown_timeout() -> void:
-	get_closest()
+func show_damage_number_on_hit(damage):
+	var display_damage_number = DamageNumberLabelContainerScene.instantiate_scene()
+	# Position on top off most UI elements
+	display_damage_number.z_as_relative = false
+	display_damage_number.z_index = 100
+	
+	display_damage_number.update_label(damage)
+	# Randomize position of label for effect
+	display_damage_number.position.x += randf_range(-30, 20)
+	display_damage_number.position.y += randf_range(-30, 20)
+	
+	animated_sprite.add_child(display_damage_number)
+
 
 # Function that runs upon death
 func die() -> void:
