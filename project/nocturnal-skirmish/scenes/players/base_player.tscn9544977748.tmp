@@ -1,0 +1,378 @@
+[gd_scene load_steps=17 format=3 uid="uid://bkm7wwbn7q6ag"]
+
+[ext_resource type="Script" uid="uid://bfodxl1lg2mmt" path="res://scripts/players/base_player.gd" id="1_hys06"]
+[ext_resource type="Texture2D" uid="uid://bcdbr4fjobibp" path="res://assets/sprites/player_temp.png" id="2_8nhs3"]
+[ext_resource type="Theme" uid="uid://bibk1lggkhdsi" path="res://themes/buttonlabel_theme.tres" id="3_8nhs3"]
+[ext_resource type="Texture2D" uid="uid://nfwxp8fxdqbn" path="res://assets/sprites/health_bar_under.png" id="3_gqmgf"]
+[ext_resource type="Texture2D" uid="uid://csp7vj5acdsee" path="res://assets/sprites/health_bar_progress.png" id="4_d7bce"]
+[ext_resource type="Texture2D" uid="uid://nu1m13vrvwj6" path="res://assets/sprites/health_bar_over.png" id="5_e4gpq"]
+[ext_resource type="Script" uid="uid://b4fxq0n3i88ya" path="res://scripts/upgrades_ui.gd" id="7_d7bce"]
+[ext_resource type="PackedScene" uid="uid://cqx0xjgrn12q2" path="res://scenes/ui/upgrade_selection_button.tscn" id="8_e4gpq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hys06"]
+atlas = ExtResource("2_8nhs3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8nhs3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hys06")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0wfyh"]
+radius = 6.0
+height = 26.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
+size = Vector2(1497.6, 842.4)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o6xl0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tipki"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hys06"]
+radius = 9.219544
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8nhs3"]
+radius = 34.0147
+
+[node name="BasePlayer" type="CharacterBody2D"]
+collision_mask = 3
+platform_on_leave = 2
+platform_floor_layers = 4294967040
+script = ExtResource("1_hys06")
+speed = 100
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8nhs3")
+
+[node name="PlayerNameLabel" type="Label" parent="AnimatedSprite2D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.5
+offset_top = -38.63
+offset_right = -14.5
+offset_bottom = -38.63
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_8nhs3")
+theme_override_font_sizes/font_size = 8
+text = "Playerasdas"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PhysicsCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0wfyh")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CameraMaxViewArea" type="Area2D" parent="Camera2D"]
+visible = false
+collision_layer = 0
+collision_mask = 0
+
+[node name="SpawnEnemiesArea" type="CollisionShape2D" parent="Camera2D/CameraMaxViewArea"]
+position = Vector2(0, 7.6293945e-06)
+shape = SubResource("RectangleShape2D_tipki")
+debug_color = Color(0, 0.62866974, 0.49322212, 0.41960785)
+
+[node name="HUDCanvas" type="CanvasLayer" parent="Camera2D"]
+
+[node name="ControlsUI" type="Control" parent="Camera2D/HUDCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TopLeftUi" type="MarginContainer" parent="Camera2D/HUDCanvas/ControlsUI"]
+layout_mode = 1
+offset_right = 182.0
+offset_bottom = 127.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/HUDCanvas/ControlsUI/TopLeftUi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Camera2D/HUDCanvas/ControlsUI/TopLeftUi/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "C = Cycle camera Zoom
+H = Halt enemies
+P = Purple Shader
+Q = Spawn Slimes
+1,2,3 = cycle character 
+F = enemies_in_range"
+
+[node name="BottomLeftUi" type="MarginContainer" parent="Camera2D/HUDCanvas/ControlsUI"]
+custom_minimum_size = Vector2(100, 21)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -35.0
+offset_right = 116.0
+offset_bottom = -10.0
+grow_vertical = 0
+scale = Vector2(3.5, 3.5)
+pivot_offset = Vector2(0, 21)
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+
+[node name="ProgressUnderBar" type="TextureRect" parent="Camera2D/HUDCanvas/ControlsUI/BottomLeftUi/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_gqmgf")
+stretch_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+custom_minimum_size = Vector2(76, 21)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("4_d7bce")
+texture_progress_offset = Vector2(5, 0)
+
+[node name="ProgressOverBar" type="TextureRect" parent="Camera2D/HUDCanvas/ControlsUI/BottomLeftUi"]
+custom_minimum_size = Vector2(100, 21)
+layout_mode = 2
+texture = ExtResource("5_e4gpq")
+stretch_mode = 2
+
+[node name="TopRightUi" type="MarginContainer" parent="Camera2D/HUDCanvas/ControlsUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/HUDCanvas/ControlsUI/TopRightUi"]
+layout_mode = 2
+
+[node name="SoulOrbAmountLabel" type="Label" parent="Camera2D/HUDCanvas/ControlsUI/TopRightUi/MarginContainer"]
+layout_mode = 2
+text = "lilrbo"
+
+[node name="UpgradesHud" type="CanvasLayer" parent="Camera2D"]
+visible = false
+
+[node name="UpgradesUi" type="Control" parent="Camera2D/UpgradesHud"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("7_d7bce")
+
+[node name="CenterVContainer" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi"]
+custom_minimum_size = Vector2(0, 648)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -324.0
+offset_right = 160.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer"]
+custom_minimum_size = Vector2(320, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UpgradeSelectionMenu" type="Panel" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxSelection" type="VBoxContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Button" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection" instance=ExtResource("8_e4gpq")]
+layout_mode = 2
+
+[node name="temp" type="Button" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Choice1" type="Panel" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp/HBoxContainer/Choice1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp/HBoxContainer/Choice1/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp/HBoxContainer/Choice1/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade1"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp/HBoxContainer/Choice1/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp/HBoxContainer/Choice1/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade1 Description"
+
+[node name="temp2" type="Button" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Choice1" type="Panel" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2/HBoxContainer/Choice1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2/HBoxContainer/Choice1/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2/HBoxContainer/Choice1/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade1"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2/HBoxContainer/Choice1/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection/temp2/HBoxContainer/Choice1/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade1 Description"
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CapsuleShape2D_o6xl0")
+debug_color = Color(1, 0, 0.13333334, 0.105882354)
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_tipki")
+debug_color = Color(0.9764706, 0, 0.42745098, 0.09019608)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="PickupRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
+shape = SubResource("CircleShape2D_hys06")
+debug_color = Color(0, 0.6392157, 0.36862746, 0.14509805)
+
+[node name="PickupMagnetRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupMagnetRange"]
+shape = SubResource("CircleShape2D_8nhs3")
+debug_color = Color(0.7764706, 0.19215687, 0.95686275, 0.12156863)
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]
+[connection signal="area_entered" from="RangeArea" to="." method="_on_range_area_entered"]
+[connection signal="area_exited" from="RangeArea" to="." method="_on_range_area_exited"]
+[connection signal="area_entered" from="PickupRange" to="." method="_on_pickup_range_area_entered"]
+[connection signal="area_entered" from="PickupMagnetRange" to="." method="_on_pickup_magnet_range_area_entered"]
+[connection signal="area_exited" from="PickupMagnetRange" to="." method="_on_pickup_magnet_range_area_exited"]

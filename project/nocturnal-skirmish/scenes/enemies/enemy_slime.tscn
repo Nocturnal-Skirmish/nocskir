@@ -93,7 +93,5 @@ script = ExtResource("2_87i5p")
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_2p468")
 animation = &"hurt"
-frame = 0
-frame_progress = 0.0
 
 [connection signal="ready" from="." to="." method="_on_ready"]

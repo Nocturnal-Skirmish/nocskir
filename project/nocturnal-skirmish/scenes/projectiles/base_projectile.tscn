@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdj0x6pf112by"]
+[gd_scene load_steps=9 format=3 uid="uid://cdj0x6pf112by"]
 
 [ext_resource type="Script" uid="uid://drq1yuaiglcee" path="res://scripts/projectiles/base_projectile.gd" id="1_msk2k"]
 [ext_resource type="Texture2D" uid="uid://brcb5ubp0cwdl" path="res://assets/sprites/simple_projectile_concept.png" id="2_jdxkx"]
+[ext_resource type="AudioStream" uid="uid://coesqhbec1wbj" path="res://assets/audio/sfx/pierce.wav" id="3_jdxkx"]
+[ext_resource type="AudioStream" uid="uid://mykj28vojwxr" path="res://assets/audio/sfx/projectile_hit.wav" id="4_5slto"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wydng"]
 atlas = ExtResource("2_jdxkx")
@@ -46,6 +48,14 @@ shape = SubResource("CircleShape2D_sdvox")
 wait_time = 10.0
 one_shot = true
 autostart = true
+
+[node name="ProjectileHitSoundEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_5slto")
+playback_type = 1
+
+[node name="PierceSoundEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_jdxkx")
+playback_type = 1
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

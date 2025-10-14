@@ -11,6 +11,7 @@ class_name BasePlayer
 @export var damage_interval = 0.5
 @export var damage_timer = 0.0
 @export var magnet_speed_mult: float = 5.0
+@export var upgrade_amount: int = 3
 
 @onready var player_sprite = $AnimatedSprite2D
 @onready var enemies_in_hurtbox: Array[CharacterBody2D] = []
@@ -19,7 +20,10 @@ class_name BasePlayer
 @onready var SimpleProjectileScene = SimpleProjectile.new()
 @onready var BulletProjectileScene = BulletProjectile.new()
 @onready var range_area = get_node("RangeArea/CollisionShape2D")
+@onready var player_upgrades = {}
 @onready var soul_orb_amount_label = $Camera2D/HUDCanvas/ControlsUI/TopRightUi/MarginContainer/SoulOrbAmountLabel
+@onready var upgrades_hud = $Camera2D/UpgradesHud
+@onready var upgrades_button_container = $Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection
 
 @export var entity_type = "player"
 
@@ -45,6 +49,11 @@ func _process(delta):
 	
 	if Input.is_key_pressed(KEY_F):
 		print(enemies_in_range)
+	
+	if Input.is_key_pressed(KEY_U):
+		show_upgrades()
+	if Input.is_key_pressed(KEY_I):
+		hide_upgrades()
 
 	if player_velocity.length() > 0:
 		player_velocity = player_velocity.normalized() * speed
@@ -136,3 +145,41 @@ func _on_pickup_magnet_range_area_exited(area: Area2D) -> void:
 	if "entity_type" in pickup and pickup["entity_type"] == "pickup" and pickup["pulled_by_magnet"]:
 		pickup["magnet_speed_mult"] = 1.0
 		pickup["magnet_target"] = null
+
+func show_upgrades() -> void:
+	if upgrades_hud.visible:
+		return
+
+	# Get random upgrades
+	var upgrades_list_inst = UpgradesList.new()
+	var upgrades_list: Dictionary = upgrades_list_inst.upgrades
+	
+	# Get random keys
+	var upgrades_list_keys = upgrades_list.keys()
+	upgrades_list_keys.shuffle()
+
+	for key in upgrades_list_keys.slice(0, upgrade_amount):
+		var upgrade_level: int = 1
+		var upgrade_object = upgrades_list_inst.upgrades[key]
+		if player_upgrades.has(key):
+			var current_level = player_upgrades[key].current_level
+			if current_level >= upgrade_object.upgrade_info.max_level:
+				continue
+			else:
+				upgrade_level = current_level + 1
+		
+		# Create a button inst
+		var button_inst = UpgradeSelectionButton.new().instantiate_scene()
+		upgrades_button_container.add_child(button_inst)
+		button_inst.update_button(upgrade_object, upgrade_level)
+	
+	upgrades_hud.visible = true
+
+func hide_upgrades() -> void:
+	if not upgrades_hud.visible:
+		return
+	
+	for child in upgrades_button_container.get_children():
+		child.queue_free()
+	
+	upgrades_hud.visible = false

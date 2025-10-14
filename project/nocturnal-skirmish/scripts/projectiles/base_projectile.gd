@@ -4,15 +4,26 @@ class_name BaseProjectile
 # Export vars
 @export var projectile_speed: float = 300
 @export var projectile_damage: float = 2.0
-@export var pierce_amount = 1
+@export var pierce_amount: int = 0
 @export var projectile_scale: float = 1.0
 @export var target_body: Node2D
 @export var target_entity_type: String = "enemy"
 
 # On ready vars
-@onready var hit_box = $HitBox
-@onready var target_pos = target_body.global_position
-@onready var targets_hit = 0
+@onready var hit_box: Area2D = $HitBox
+@onready var projectile_hit_sound_effect: AudioStreamPlayer2D = $ProjectileHitSoundEffect
+@onready var pierce_sound_effect: AudioStreamPlayer2D = $PierceSoundEffect
+@onready var target_pos: Vector2 = target_body.global_position
+@onready var targets_hit: int = 0
+
+func play_audio(
+	audio_file: AudioStreamPlayer2D,
+	random_pitch: bool = false
+):
+	if random_pitch:
+		audio_file.pitch_scale = randf_range(0.90, 1.05)
+	audio_file.play()
+	await audio_file.finished
 
 # Moves projectile towards a position
 func move_to_direction(delta: float) -> void:
@@ -32,8 +43,11 @@ func hit_enemy_entity(hit_box: Area2D) -> void:
 		enemy_body["health_points"] -= projectile_damage
 		enemy_body.damage_animation()
 		enemy_body.show_damage_number_on_hit(projectile_damage)
+		await play_audio(projectile_hit_sound_effect)
 		if targets_hit >= pierce_amount:
 			queue_free()
+		else:
+			await play_audio(pierce_sound_effect, true)
 		targets_hit += 1
 
 # Move toward target every frame
