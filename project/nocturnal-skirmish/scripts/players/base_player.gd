@@ -12,6 +12,7 @@ class_name BasePlayer
 @export var damage_timer = 0.0
 @export var magnet_speed_mult: float = 5.0
 @export var upgrade_amount: int = 3
+@export var soul_orb_amount_total: float = 0
 
 @onready var player_sprite = $AnimatedSprite2D
 @onready var enemies_in_hurtbox: Array[CharacterBody2D] = []
@@ -21,9 +22,10 @@ class_name BasePlayer
 @onready var BulletProjectileScene = BulletProjectile.new()
 @onready var range_area = get_node("RangeArea/CollisionShape2D")
 @onready var player_upgrades = {}
-@onready var soul_orb_amount_label = $Camera2D/HUDCanvas/ControlsUI/TopRightUi/MarginContainer/SoulOrbAmountLabel
+@onready var soul_orb_progress = $Camera2D/HUDCanvas/ControlsUI/TopUi/MarginContainer/SoulOrbProgress
 @onready var upgrades_hud = $Camera2D/UpgradesHud
 @onready var upgrades_button_container = $Camera2D/UpgradesHud/UpgradesUi/CenterVContainer/CenterContainer/UpgradeSelectionMenu/MarginContainer/VBoxSelection
+@onready var soul_orb_label = $Camera2D/HUDCanvas/ControlsUI/TopRightUi/MarginContainer/SoulOrbAmountLabel
 
 @export var entity_type = "player"
 
@@ -111,9 +113,16 @@ func _on_range_area_exited(area: Area2D) -> void:
 		if "entity_type" in enemy_body and enemy_body["entity_type"] == "enemy":
 			enemies_in_range.erase(enemy_body)
 
-# Updates label with soul orb amount
-func update_soul_orb_label() -> void:
-	soul_orb_amount_label.text = "Soul Orb Amount: %s" % [soul_orb_amount]
+# Updates progress bar with soul orb amount
+func update_soul_orb_progress() -> void:
+	soul_orb_progress.value = soul_orb_amount
+	soul_orb_label.text = "Soul Orb: Level: " + str(soul_orb_level) + ", Total: " + str(soul_orb_amount_total)
+	if soul_orb_progress.max_value < soul_orb_amount:
+		# TODO: Change this, make exponential growth
+		soul_orb_level += 1
+		soul_orb_amount = 0
+		soul_orb_progress.max_value += 25
+		soul_orb_progress.value = 0
 
 # add self to player list group
 func _on_ready() -> void:
@@ -130,7 +139,8 @@ func _on_pickup_range_area_entered(area: Area2D) -> void:
 		match pickup["pickup_type"]:
 			"soul_orb":
 				soul_orb_amount += (pickup["soul_amount"] * soul_orb_gain_mult)
-				update_soul_orb_label()
+				soul_orb_amount_total += (pickup["soul_amount"] * soul_orb_gain_mult)
+				update_soul_orb_progress()
 				pickup.queue_free()
 
 func _on_pickup_magnet_range_area_entered(area: Area2D) -> void:

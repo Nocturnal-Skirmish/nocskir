@@ -143,7 +143,6 @@ func show_damage_number_on_hit(damage):
 	
 	animated_sprite.add_child(display_damage_number)
 
-
 # Function that runs upon death
 func die() -> void:
 	print("%s killed." % [name])
