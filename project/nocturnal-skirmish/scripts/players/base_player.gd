@@ -29,7 +29,13 @@ class_name BasePlayer
 
 @export var entity_type = "player"
 
+
+
 func _process(delta):
+	#Checks multiplayer authority first
+	print(name)
+	if !is_multiplayer_authority(): return
+	
 	if enemies_in_hurtbox.size() > 0:
 		damage_timer -= delta
 		if damage_timer <= 0.0:
@@ -123,9 +129,21 @@ func update_soul_orb_progress() -> void:
 		soul_orb_amount = 0
 		soul_orb_progress.max_value += 25
 		soul_orb_progress.value = 0
+		
+		
+func _ready() -> void:
+	$AnimatedSprite2D/PlayerNameLabel.text = player_name
+	print("Player ready:", name, "Authority:", get_multiplayer_authority())
+
+	if is_multiplayer_authority():
+		print("✅ I control this player!")
+	else:
+		print("❌ Not my player.")
+
 
 # add self to player list group
 func _on_ready() -> void:
+	
 	add_to_group("player_list")
 	var players = get_tree().get_nodes_in_group("player_list")
 	print(players)

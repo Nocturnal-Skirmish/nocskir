@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bkm7wwbn7q6ag"]
+[gd_scene load_steps=17 format=3 uid="uid://bkm7wwbn7q6ag"]
 
 [ext_resource type="Script" uid="uid://bfodxl1lg2mmt" path="res://scripts/players/base_player.gd" id="1_hys06"]
 [ext_resource type="Texture2D" uid="uid://bcdbr4fjobibp" path="res://assets/sprites/player_temp.png" id="2_8nhs3"]
@@ -40,6 +40,14 @@ radius = 9.219544
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8nhs3"]
 radius = 34.0147
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gqmgf"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatedSprite2D:flip_h")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="BasePlayer" type="CharacterBody2D"]
 collision_mask = 3
@@ -282,6 +290,9 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupMagnetRange"]
 shape = SubResource("CircleShape2D_8nhs3")
 debug_color = Color(0.7764706, 0.19215687, 0.95686275, 0.12156863)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gqmgf")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

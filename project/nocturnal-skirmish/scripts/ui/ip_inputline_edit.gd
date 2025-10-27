@@ -29,9 +29,7 @@ func _on_text_submitted(submitted_text: String) -> void:
 		print("Connecting to:", submitted_text)
 	else:
 		print("Invalid IP address:", submitted_text)
-# same behaviour as pressing enter on lineedit
-func _on_join_button_pressed() -> void:
-	_on_text_submitted(text)
+
 
 # Check if IP is still valid
 func _is_valid_ip(ip: String) -> bool:

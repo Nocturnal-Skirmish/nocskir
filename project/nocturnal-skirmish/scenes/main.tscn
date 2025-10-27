@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=4 uid="uid://c7snny445dfk6"]
+[gd_scene load_steps=21 format=4 uid="uid://c7snny445dfk6"]
 
 [ext_resource type="Script" uid="uid://f8d8460hbtgt" path="res://scripts/main_game.gd" id="1_tefeu"]
 [ext_resource type="Shader" uid="uid://5qsy7qneoege" path="res://shaders/Tilemap.gdshader" id="2_tipki"]
 [ext_resource type="Texture2D" uid="uid://2kgygg4fokpm" path="res://assets/tilemaps/tilemap_concept-sheet.png" id="3_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://bkm7wwbn7q6ag" path="res://scenes/players/base_player.tscn" id="4_choun"]
 [ext_resource type="Texture2D" uid="uid://d1hvm7fyhnsk1" path="res://assets/sprites/slime_concept.png" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://bux07vnscnnki" path="res://scripts/high_level_player_spawner.gd" id="6_tefeu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_85g3d"]
 shader = ExtResource("2_tipki")
@@ -141,6 +142,8 @@ height = 22.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tipki"]
 height = 28.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tefeu"]
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_tefeu")
 
@@ -187,3 +190,11 @@ shape = SubResource("CapsuleShape2D_tipki")
 debug_color = Color(0, 0.64705884, 0.2784314, 0.12156863)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bkm7wwbn7q6ag")
+script = ExtResource("6_tefeu")
+network_player_scene = ExtResource("4_choun")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tefeu")

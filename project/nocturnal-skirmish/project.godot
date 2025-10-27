@@ -16,6 +16,10 @@ run/main_scene="uid://23novt00b5vr"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+HighLevelNetworkHandler="*res://scripts/high_level_network_handler.gd"
+
 [global_group]
 
 player_list="All players in main scene"
