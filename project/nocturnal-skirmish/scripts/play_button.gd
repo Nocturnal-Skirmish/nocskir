@@ -21,4 +21,4 @@ func _on_button_unhovered():
 		button_label.position -= hover_offset
 
 func _on_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	get_tree().change_scene_to_file("res://scenes/multiplayer_game_ui.tscn")
